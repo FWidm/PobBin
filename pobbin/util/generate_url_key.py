@@ -15,7 +15,7 @@ def build(adjective_count: int = 2):
             adjective = random.choice(adjectives)
         chosen_adjectives.append(adjective)
 
-    monster = string.capwords(random.choice(monsters))
+    monster = random.choice(monsters).strip()
 
     adjectives_string = "".join([string.capwords(word) for word in chosen_adjectives])
 

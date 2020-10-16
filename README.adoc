@@ -2,3 +2,6 @@
 
 PoC for a pastebin alternative using FastAPI
 
+# Thanks
+https://github.com/taikuukaits/SimpleWordlists[ taikuukaits / SimpleWordlists ]
+
