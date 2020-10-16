@@ -4,9 +4,9 @@ from pobbin.api.db.database import Base
 
 
 class Paste(Base):
-    __tablename__ = 'paste'
+    __tablename__ = 'pastes'
 
-    id = Column(Integer, primary_key=True, index=True)
+    pk = Column(Integer, primary_key=True, index=True)
     key = Column(String(255), nullable=False, unique=True)
     raw_xml = Column(Text, nullable=False, unique=False)
     md5 = Column(String(128), nullable=False, unique=False)
