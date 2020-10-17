@@ -15,7 +15,6 @@ class PasteRepository:
         except IntegrityError:
             logging.getLogger().error(f"Likely collision detected for paste with key: {paste.key}")
             db.rollback()
-            db.expunge(paste)  # @TODO: not sure if this is needed
             return False
 
         return True
