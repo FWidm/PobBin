@@ -11,8 +11,3 @@ class Paste(Base):
     raw_xml = Column(Text, nullable=False, unique=False)
     md5 = Column(String(128), nullable=False, unique=False)
     created = Column(DateTime(timezone=True), server_default=func.now())
-
-    def __init__(self, key: str, raw_xml: str, md5: str):
-        self.key = key
-        self.raw_xml = raw_xml
-        self.md5 = md5
