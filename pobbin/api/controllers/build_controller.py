@@ -7,6 +7,7 @@ from pobbin.api.models.paste import Paste
 from pobbin.util import generate_url_key
 
 paste_repository = PasteRepository()
+MAX_ATTEMPTS = 5
 
 
 def create_paste(db: Session, raw_xml: str) -> Paste:
@@ -14,9 +15,15 @@ def create_paste(db: Session, raw_xml: str) -> Paste:
         md5 = hash_content(raw_xml)
         paste = paste_repository.find_by_hash(db, md5)
         if not paste:
-            key = generate_url_key.build()
-            paste = Paste(key=key, raw_xml=raw_xml, md5=md5)
-            paste_repository.create(db, paste)
+            successfully_added = False
+            attempt = 0
+
+            while attempt < MAX_ATTEMPTS and not successfully_added:
+                key = generate_url_key.build()
+                paste = Paste(key=key, raw_xml=raw_xml, md5=md5)
+                successfully_added = paste_repository.create(db, paste)
+                attempt += 1
+
         return paste
 
 
