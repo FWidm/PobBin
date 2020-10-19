@@ -1,5 +1,3 @@
-import logging
-
 from fastapi import APIRouter, Request, Response, Depends
 from sqlalchemy.orm import Session
 
