@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from pobbin.api.controllers import build_controller
 from pobbin.api.db.database import get_db
 from pobbin.api.schemas.paste import PostPastebinView, GetPastebinView
+from pobbin.util.pob_xml_verifier import xsd_verifier
 
 router = APIRouter()
 
@@ -25,8 +26,10 @@ async def get_paste_raw(key: str, db: Session = Depends(get_db)):
 async def import_paste(request: Request, db: Session = Depends(get_db)):
     content_type = request.headers.get('content-type')
     if content_type != "application/xml":
-        return Response("Invalid content type", 400)
+        return Response("Invalid content type, expected content type is 'application/xml'.", 406)
 
     build_xml = await request.body()
-
-    return build_controller.create_paste(db, build_xml.decode("utf-8"))
+    if xsd_verifier.is_valid_pob(build_xml):
+        decoded_build_xml = build_xml.decode("utf-8")
+        return build_controller.create_paste(db, decoded_build_xml)
+    return Response("No valid build XML.", 400)
