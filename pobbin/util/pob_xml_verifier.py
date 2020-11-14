@@ -7,7 +7,7 @@ XSD_PATH = "assets/pob_build.xsd"
 XSD_CONTENT = load_file_as_string(XSD_PATH)
 
 
-def is_valid_pob(pob_build_xml: str) -> bool:
+def is_valid_pob(pob_build_xml: bytes) -> bool:
     schema_doc = etree.XML(XSD_CONTENT)
     schema = etree.XMLSchema(schema_doc)
     parser = etree.XMLParser(schema=schema)
