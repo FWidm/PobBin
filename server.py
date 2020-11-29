@@ -8,7 +8,7 @@ from pobbin.util.paste_xml_request_body_override import paste_xml_request_body_o
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(openapi_prefix="/api")
+app = FastAPI()
 
 app.include_router(pastes.router)
 
