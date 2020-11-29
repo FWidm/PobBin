@@ -8,7 +8,7 @@ from pobbin.util.paste_xml_request_body_override import paste_xml_request_body_o
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(openapi_prefix="/api")
 
 app.include_router(pastes.router)
 
@@ -37,7 +37,7 @@ app.openapi = custom_openapi
 
 
 def run():
-    uvicorn.run(app, port=8888)
+    uvicorn.run(app, host="0.0.0.0", port=8888)
 
 
 if __name__ == '__main__':

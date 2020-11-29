@@ -3,12 +3,49 @@ version: '3'
 services:
   database:
     image: postgres:latest # use latest official postgres version
+    container_name: pobbin_db
+    restart:
+      on-failure
     ports:
       - 5432:5432
     env_file:
       - database.env # configure postgres
     volumes:
       - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+    networks:
+      - backend
+
+  webserver:
+    image: nginx:stable-alpine
+    container_name: pobbin_nginx
+    depends_on:
+      - backend
+    #    restart:
+    #      on-failure
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - frontend
+      - backend
+
+  backend:
+    container_name: pobbin_backend
+    depends_on:
+      - database
+    build: ./
+    restart:
+      on-failure
+    ports:
+      - 8888:8888
+    networks:
+      - backend
 
 volumes:
   database-data: # named volumes can be managed easier using docker-compose
+
+networks:
+  frontend:
+  backend:
