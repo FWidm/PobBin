@@ -9,7 +9,7 @@ services:
     ports:
       - 5432:5432
     env_file:
-      - database.env # configure postgres
+      - ./docker/database.env # configure postgres
     volumes:
       - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
     networks:
@@ -40,6 +40,8 @@ services:
       on-failure
     ports:
       - 8888:8888
+    env_file:
+        - ./docker/backend.env # configure the backend container environment
     networks:
       - backend
 
