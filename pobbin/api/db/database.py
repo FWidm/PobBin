@@ -7,11 +7,11 @@ from os import environ as envget
 DB_HOST = envget['DB_HOST']
 DB_PORT = envget['DB_PORT']
 DB_NAME = envget['DB_NAME']
-DB_USER = envget['DB_USERNAME']
+DB_USER = envget['DB_USER']
 DB_PWD = envget['DB_PASSWORD']
-DB_PROTO = envget['DB_CONNECTION']
+DB_CONNECTION = envget['DB_CONNECTION']
 
-SQLALCHEMY_DATABASE_URL = f'{DB_PROTO}://{DB_USER}:{DB_PWD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
+SQLALCHEMY_DATABASE_URL = f'{DB_CONNECTION}://{DB_USER}:{DB_PWD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL
 )
