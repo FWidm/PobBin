@@ -50,3 +50,9 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
+
+__pycache__
+docker/database.env
+docker/backend.env
+docker-compose.override.yml
+
