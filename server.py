@@ -37,7 +37,7 @@ app.openapi = custom_openapi
 
 
 def run():
-    uvicorn.run(app, port=8888)
+    uvicorn.run(app, host="0.0.0.0", port=8888)
 
 
 if __name__ == '__main__':
