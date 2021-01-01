@@ -4,10 +4,9 @@ from sqlalchemy.orm import Session
 
 from pobbin.api.db.paste_repository import PasteRepository
 from pobbin.api.models.paste import Paste
-from pobbin.util import generate_url_key
+from pobbin.util.hashids import hashes
 
 paste_repository = PasteRepository()
-MAX_ATTEMPTS = 5
 
 
 def create_paste(db: Session, raw_xml: str) -> Paste:
@@ -15,16 +14,10 @@ def create_paste(db: Session, raw_xml: str) -> Paste:
         build_hash = hash_content(raw_xml)
         paste = paste_repository.find_by_hash(db, build_hash)
         if not paste:
-            successfully_added = False
-            attempt = 0
+            paste = Paste(raw_xml=raw_xml, build_hash=build_hash)
+            paste_repository.create(db, paste)
 
-            while attempt < MAX_ATTEMPTS and not successfully_added:
-                key = generate_url_key.build()
-                paste = Paste(key=key, raw_xml=raw_xml, build_hash=build_hash)
-                successfully_added = paste_repository.create(db, paste)
-                attempt += 1
-
-        return paste
+        return _add_hashed_key(paste)
 
 
 def hash_content(raw_xml: str) -> str:
@@ -33,8 +26,20 @@ def hash_content(raw_xml: str) -> str:
 
 
 def get_paste(db: Session, key: str) -> Paste:
-    return paste_repository.find_by_key(db, key)
+    pk = hashes.decode(key)
+    paste = paste_repository.find_by_pk(db, pk)
+    return _add_hashed_key(paste)
 
 
 def get_raw_xml(db, key) -> str:
     return get_paste(db, key).raw_xml
+
+
+def _add_hashed_key(paste: Paste) -> Paste:
+    """
+    Adds the hashed PK as key attribute to a paste
+    :param paste: to generate hashkey for
+    :return: paste with generated key attribute
+    """
+    paste.key = hashes.encode(paste.pk)
+    return paste

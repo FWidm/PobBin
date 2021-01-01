@@ -24,5 +24,5 @@ class PasteRepository:
         return db.query(Paste).filter(Paste.build_hash == build_hash).one_or_none()
 
     @staticmethod
-    def find_by_key(db: Session, key: str) -> Paste:
-        return db.query(Paste).filter(Paste.key == key).one_or_none()
+    def find_by_pk(db: Session, pk: int) -> Paste:
+        return db.query(Paste).filter(Paste.pk == pk).one_or_none()
