@@ -9,5 +9,5 @@ class Paste(Base):
     pk = Column(Integer, primary_key=True, index=True)
     key = Column(String(255), nullable=False, unique=True)
     raw_xml = Column(Text, nullable=False, unique=False)
-    md5 = Column(String(128), nullable=False, unique=False)
+    build_hash = Column(Text, nullable=False, unique=False)
     created = Column(DateTime(timezone=True), server_default=func.now())
