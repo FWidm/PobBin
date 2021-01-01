@@ -26,7 +26,7 @@ def hash_content(raw_xml: str) -> str:
 
 
 def get_paste(db: Session, key: str) -> Paste:
-    pk = hashes.decode(key)
+    pk, = hashes.decode(key)
     paste = paste_repository.find_by_pk(db, pk)
     return _add_hashed_key(paste)
 
