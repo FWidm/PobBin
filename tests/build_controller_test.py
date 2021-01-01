@@ -1,4 +1,6 @@
+import os
 import unittest
+from unittest import mock
 
 from starlette.testclient import TestClient
 
@@ -6,6 +8,7 @@ from tests import load_test_file
 from tests.test_base import get_test_client, truncate_db
 
 
+@mock.patch.dict(os.environ, {"DB_HOST": "pobbin_db"})
 class MyTestCase(unittest.TestCase):
     client: TestClient
 
