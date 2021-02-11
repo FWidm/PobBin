@@ -6,8 +6,6 @@ from pobbin.api.db.database import engine, Base
 from pobbin.api.routes import pastes
 from pobbin.util.paste_xml_request_body_override import paste_xml_request_body_override
 
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI()
 
 app.include_router(pastes.router)
@@ -37,6 +35,8 @@ app.openapi = custom_openapi
 
 
 def run():
+    # create tables
+    Base.metadata.create_all(bind=engine)
     uvicorn.run(app, host="0.0.0.0", port=8888)
 
 

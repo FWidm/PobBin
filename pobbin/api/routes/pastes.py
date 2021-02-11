@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Request, Response, Depends
 from sqlalchemy.orm import Session
+from starlette.responses import JSONResponse
 
 from pobbin.api.controllers import build_controller
 from pobbin.api.db.database import get_db
@@ -32,4 +33,4 @@ async def import_paste(request: Request, db: Session = Depends(get_db)) -> Respo
     if is_valid_pob(build_xml):
         decoded_build_xml = build_xml.decode()
         return build_controller.create_paste(db, decoded_build_xml)
-    return Response("No valid build XML.", 400)
+    return JSONResponse(content="No valid build XML.", status_code=400)

@@ -1,7 +1,7 @@
 import logging
 
-from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
 
 from pobbin.api.models.paste import Paste
 
@@ -20,9 +20,9 @@ class PasteRepository:
         return True
 
     @staticmethod
-    def find_by_hash(db: Session, md5: str) -> Paste:
-        return db.query(Paste).filter(Paste.md5 == md5).one_or_none()
+    def find_by_hash(db: Session, build_hash: str) -> Paste:
+        return db.query(Paste).filter(Paste.build_hash == build_hash).one_or_none()
 
     @staticmethod
-    def find_by_key(db: Session, key: str) -> Paste:
-        return db.query(Paste).filter(Paste.key == key).one_or_none()
+    def find_by_pk(db: Session, pk: int) -> Paste:
+        return db.query(Paste).filter(Paste.pk == pk).one_or_none()

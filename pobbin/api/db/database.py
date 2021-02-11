@@ -1,15 +1,15 @@
+from os import environ
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 
-from os import environ as envget
-
-DB_HOST = envget['DB_HOST']
-DB_PORT = envget['DB_PORT']
-DB_NAME = envget['DB_NAME']
-DB_USER = envget['DB_USER']
-DB_PWD = envget['DB_PASSWORD']
-DB_CONNECTION = envget['DB_CONNECTION']
+DB_HOST = environ.get('DB_HOST', None)
+DB_PORT = environ.get('DB_PORT', 0)
+DB_NAME = environ.get('DB_NAME', None)
+DB_USER = environ.get('DB_USER', None)
+DB_PWD = environ.get('DB_PASSWORD', None)
+DB_CONNECTION = environ.get('DB_CONNECTION', 'postgresql')
 
 SQLALCHEMY_DATABASE_URL = f'{DB_CONNECTION}://{DB_USER}:{DB_PWD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
 engine = create_engine(
@@ -27,5 +27,3 @@ def get_db() -> Session:
         yield db
     finally:
         db.close()
-
-
